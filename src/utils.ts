@@ -67,5 +67,9 @@ export function providerFromModel(model: string) {
     if (model === "custom") {
         return "custom";
     }
+    if (model === "codellama" || "llama2") {
+        console.log("provider == ollama")
+        return "ollama";
+    }
     return "anthropic";
 }

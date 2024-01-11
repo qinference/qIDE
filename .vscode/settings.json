@@ -9,5 +9,11 @@
         "dist": true // set this to false to include "dist" folder in search results
     },
     // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
-    "typescript.tsc.autoDetect": "off"
+    "typescript.tsc.autoDetect": "off",
+    "python.analysis.extraPaths": [
+        "/Users/qinference/.vscode/extensions/continue.continue-0.0.412-darwin-x64"
+    ],
+    "python.autoComplete.extraPaths": [
+        "/Users/qinference/.vscode/extensions/continue.continue-0.0.412-darwin-x64"
+    ]
 }

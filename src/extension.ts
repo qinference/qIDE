@@ -4,7 +4,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as marked from 'marked';
 import * as fs from 'fs';
-
+// 
 import { getProviderErrorMsg, promptForApiKey, providerFromModel } from './utils';
 
 import { ChatCompletionRequestMessage } from "openai";
@@ -13,6 +13,7 @@ import { APIProvider } from "./apiProvider";
 import { AnthropicProvider, AnthropicParams, convertOpenAIMessagesToAnthropicMessages } from "./anthropic";
 import { OpenAIProvider, OpenAIParams } from "./openai";
 import { CustomLLMProvider } from './custom';
+import { OllamaParams, ollamaLLMProvider } from './ollama';
 
 interface ResourcePaths {
     htmlPath: string;
@@ -99,7 +100,7 @@ export function activate(context: vscode.ExtensionContext) {
     let disposable = vscode.commands.registerCommand('chatide.start', async () => {
         const chatIdePanel = vscode.window.createWebviewPanel(
             'chatIde',
-            'ChatIDE',
+            'QinLLM',
             vscode.ViewColumn.Beside,
             {
                 // allow the extension to reach files in the bundle
@@ -110,27 +111,33 @@ export function activate(context: vscode.ExtensionContext) {
             },
         );
 
+        //  ---------------  웹뷰 Path : html, js, css  -----------
         const htmlPathUri = vscode.Uri.file(path.join(context.extensionPath, 'src' ,'chatide.html'));
         const htmlPath = htmlPathUri.with({scheme: 'vscode-resource'});   
-
+        
         let jsPathUri = vscode.Uri.file(context.asAbsolutePath(path.join('src', "chatide.js")));
         const jsPath = chatIdePanel.webview.asWebviewUri(jsPathUri).toString();
-
+        
         let cssUri = vscode.Uri.file(context.asAbsolutePath(path.join('src', "chatide.css")));
         const cssPath = chatIdePanel.webview.asWebviewUri(cssUri).toString();
-
+        
         let highlightJsCssUri = vscode.Uri.file(context.asAbsolutePath(path.join('src', "atom-one-dark.min.css")));
         const highlightJsCssPath = chatIdePanel.webview.asWebviewUri(highlightJsCssUri).toString();
-
+        
         let highlightJsScriptUri = vscode.Uri.file(context.asAbsolutePath(path.join('src', "highlight.min.js")));
         const highlightJsScriptPath = chatIdePanel.webview.asWebviewUri(highlightJsScriptUri).toString();
-
-        let iconUri = vscode.Uri.file(context.asAbsolutePath(path.join('assets', "icon.jpg")));
+        
+        let iconUri = vscode.Uri.file(context.asAbsolutePath(path.join('assets', "q.png")));
         const iconPath = chatIdePanel.webview.asWebviewUri(iconUri).toString();
+        
+        //  -------------------------------------------------------
+
 
         const model = vscode.workspace.getConfiguration('chatide').get('model') || "No model configured";
         const provider = providerFromModel(model.toString());
+        // provider == "ollama"
 
+        
         const errorCallback = (error: any) => {
             console.error('Error fetching stream:', error);
             const errorMessage = error.message;
@@ -139,6 +146,7 @@ export function activate(context: vscode.ExtensionContext) {
         };
         
         const configDetails = model.toString();
+        
         const resourcePaths = {
             htmlPath: htmlPath.fsPath,
             chatideJsPath: jsPath.toString(),
@@ -331,7 +339,7 @@ async function getGptResponse(userMessage: string, completionCallback: (completi
         return;
     }
 
-    let params: OpenAIParams | AnthropicParams;
+    let params: OpenAIParams | AnthropicParams | OllamaParams;
 
     if (provider === "openai" || provider === "custom") {
         params = {
@@ -349,6 +357,13 @@ async function getGptResponse(userMessage: string, completionCallback: (completi
             max_tokens: Number(maxTokens),
             model: model.toString(),
         };
+    } else if (provider === "ollama") {
+        console.log("ollama 메세지",messages)
+        params = {
+            prompts: messages,
+            model: model.toString(),
+            temperature: Number(temperature),
+        };   
     }
     else {
         vscode.window.showErrorMessage(
@@ -462,6 +477,10 @@ async function initApiProviderIfNeeded(context: vscode.ExtensionContext, force: 
     else if (providerType === "custom") {
         console.log("Initializing custom provider...");
         apiProvider = new CustomLLMProvider(context, customServerUrl);
+    } else if (providerType === "ollama") {
+        console.log("Initializing ollama provider...");
+        apiProvider = new ollamaLLMProvider(context);
+        
     } else {
         vscode.window.showErrorMessage(
             `Invalid provider "${providerType}" in the ChatIDE settings. Please use a valid provider and restart the extension.`

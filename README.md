@@ -1,36 +1,28 @@
 <br>
 <p align="center">
+  <a href="https://www.qinference.com" target="_blank">
+    <img width="180" alt="image" src="assets/qinIDE.png" alt="QinIDE logo" >
+  </a>
+</p>
+
+<p align="center">
+  This project began from 
   <a href="https://chatide.dev" target="_blank">
-    <img width="350" alt="image" src="https://user-images.githubusercontent.com/3611042/232338632-9c49eb40-f52b-40bc-87af-d6ffd3befc8c.png" alt="ChatIDE logo" >
-  </a>
-</p>
-<p align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=ChatIDE.chatide" target="_blank">
-    <img src="https://img.shields.io/visual-studio-marketplace/d/chatide.chatide?logo=visual-studio-code&style=social" alt="Installs">
-  </a>
-  <span> </span>
-  <a href="https://github.com/yagil/ChatIDE" target="_blank">
-      <img src="https://img.shields.io/github/stars/yagil/ChatIDE?style=social" alt="Github repo stars">
-  </a>
-</p>
-<p align="center">
-    <b>ChatIDE - AI assistant in your IDE</b><br/>
-  Converse with <a href="https://openai.com/blog/openai-api" target="_blank">OpenAI's ChatGPT</a> or <a href="https://console.anthropic.com/docs/api" target="_blank">Anthropic's Claude</a> in VSCode
-</p>
-
-<p align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=ChatIDE.chatide" target="_blank">
-    <img width="309" alt="image" src="https://user-images.githubusercontent.com/3611042/232336724-71df6bf8-94e0-4b08-93fc-089ed70ad8ed.png">
+    <img width="120" alt="image" src="https://user-images.githubusercontent.com/3611042/232338632-9c49eb40-f52b-40bc-87af-d6ffd3befc8c.png" alt="ChatIDE logo" >
   </a>
 </p>
 
+<p align="center">
+    <b>QinIDE - AI assistant in your IDE</b><br/>
+  Converse with <a href="https://ai.meta.com/llama/" target="_blank"> LLAMA2 </a> or <a href="https://openai.com/blog/openai-api" target="_blank">  OpenAI's ChatGPT</a> or <a href="https://console.anthropic.com/docs/api" target="_blank">Anthropic's Claude</a> in VSCode
+</p>
 <p align="center">
   <a href="https://github.com/yagil/ChatIDE/blob/main/LICENSE" target="_blank">
       <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
   </a>
 </p>
 
-[![Video demo](https://chatide.dev/assets/example.png)](https://user-images.githubusercontent.com/3611042/232339222-c0532f49-6772-46c5-b29e-be00f77c1c1c.mov) 
+<img alt="image" src="assets/screenshot.png" alt="screenshot" >
 
 ## Build and run from source
 
@@ -38,10 +30,6 @@
 2. Open the project in VS Code
 3. Press `F5` to launch the extension in debug mode
 
-## Installation
-
-Grab the latest ChatIDE version from the Extensions Marketplace:<br>
-https://marketplace.visualstudio.com/items?itemName=ChatIDE.chatide
 
 ## Bring Your Own API keys
 
